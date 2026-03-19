@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mod Chat</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Mod Chat</h1>
+<div id="messages"></div>
+<input type="text" id="msgInput" placeholder="Type a message..." />
+<button id="sendBtn">Send</button>
+
+<script type="module">
+import { db, sendMessage, listenMessages, markGuestActive } from './firebase.js';
+
+const params = new URLSearchParams(window.location.search);
+const guestId = params.get('guest');
+
+const messagesDiv = document.getElementById('messages');
+const msgInput = document.getElementById('msgInput');
+const sendBtn = document.getElementById('sendBtn');
+
+markGuestActive(guestId);
+
+listenMessages(guestId, displayMessage);
+
+sendBtn.onclick = () => {
+  const text = msgInput.value.trim();
+  if (!text) return;
+  sendMessage(guestId, 'mod', text);
+  msgInput.value = '';
+};
+
+function displayMessage(msg) {
+  const div = document.createElement('div');
+  div.classList.add('message');
+  div.textContent = (msg.sender==='mod'?'You: ':'Guest: ') + msg.text;
+  if(msg.sender==='guest') div.classList.add('guest');
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+</script>
+</body>
+</html>
