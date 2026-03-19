@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talk to Someone</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Talk to Someone</h1>
+<button id="startChat">Click to Chat</button>
+
+<div id="chat">
+  <div id="messages"></div>
+  <input type="text" id="msgInput" placeholder="Type a message..." />
+  <button id="sendMsg">Send</button>
+</div>
+
+<script type="module">
+import { db, createGuestRequest, sendMessage, listenMessages } from './firebase.js';
+
+let guestId = null;
+let chatId = null;
+
+const startBtn = document.getElementById('startChat');
+const chatDiv = document.getElementById('chat');
+const messagesDiv = document.getElementById('messages');
+const msgInput = document.getElementById('msgInput');
+const sendBtn = document.getElementById('sendMsg');
+
+startBtn.onclick = () => {
+  guestId = 'guest_' + Date.now();
+  chatId = guestId;
+  createGuestRequest(guestId);
+  startBtn.style.display = 'none';
+  chatDiv.style.display = 'flex';
+  listenMessages(chatId, displayMessage);
+};
+
+sendBtn.onclick = () => {
+  const text = msgInput.value.trim();
+  if (!text) return;
+  sendMessage(chatId, 'guest', text);
+  msgInput.value = '';
+};
+
+function displayMessage(msg) {
+  const msgDiv = document.createElement('div');
+  msgDiv.classList.add('message');
+  msgDiv.textContent = (msg.sender === 'mod' ? 'Mod: ' : 'You: ') + msg.text;
+  if (msg.sender === 'mod') msgDiv.classList.add('mod');
+  messagesDiv.appendChild(msgDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+</script>
+</body>
+</html>
