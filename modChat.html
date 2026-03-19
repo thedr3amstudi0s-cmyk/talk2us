@@ -7,10 +7,14 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Mod Chat</h1>
-<div id="messages"></div>
-<input type="text" id="msgInput" placeholder="Type a message..." />
-<button id="sendBtn">Send</button>
+<div class="container">
+  <h1>Mod Chat</h1>
+  <div id="messages" class="messages"></div>
+  <div class="input-area">
+    <input type="text" id="msgInput" placeholder="Type a message..." />
+    <button id="sendBtn">Send</button>
+  </div>
+</div>
 
 <script type="module">
 import { db, sendMessage, listenMessages, markGuestActive } from './firebase.js';
@@ -23,7 +27,6 @@ const msgInput = document.getElementById('msgInput');
 const sendBtn = document.getElementById('sendBtn');
 
 markGuestActive(guestId);
-
 listenMessages(guestId, displayMessage);
 
 sendBtn.onclick = () => {
@@ -36,8 +39,8 @@ sendBtn.onclick = () => {
 function displayMessage(msg) {
   const div = document.createElement('div');
   div.classList.add('message');
-  div.textContent = (msg.sender==='mod'?'You: ':'Guest: ') + msg.text;
-  if(msg.sender==='guest') div.classList.add('guest');
+  div.classList.add(msg.sender==='guest'?'guest-msg':'mod-msg');
+  div.textContent = msg.text;
   messagesDiv.appendChild(div);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
