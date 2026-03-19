@@ -48,12 +48,11 @@ sendBtn.onclick = () => {
   msgInput.value = '';
 };
 
-function displayMessage(msg) {
-  const msgDiv = document.createElement('div');
-  msgDiv.classList.add('message');
-  msgDiv.classList.add(msg.sender==='guest'?'guest-msg':'mod-msg');
-  msgDiv.textContent = msg.text;
-  messagesDiv.appendChild(msgDiv);
+function displayMessage(msg){
+  const div=document.createElement('div');
+  div.classList.add('message', msg.sender==='guest'?'guest-msg':'mod-msg');
+  div.innerHTML = msg.text + `<small>${new Date(msg.time).toLocaleTimeString()}</small>`;
+  messagesDiv.appendChild(div);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 </script>
