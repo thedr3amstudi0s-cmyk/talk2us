@@ -7,13 +7,17 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Talk to Someone</h1>
-<button id="startChat">Click to Chat</button>
+<div class="container">
+  <h1>Talk to Someone</h1>
+  <button id="startChat">Click to Chat</button>
 
-<div id="chat">
-  <div id="messages"></div>
-  <input type="text" id="msgInput" placeholder="Type a message..." />
-  <button id="sendMsg">Send</button>
+  <div id="chat" class="chat-box">
+    <div id="messages" class="messages"></div>
+    <div class="input-area">
+      <input type="text" id="msgInput" placeholder="Type a message..." />
+      <button id="sendMsg">Send</button>
+    </div>
+  </div>
 </div>
 
 <script type="module">
@@ -47,8 +51,8 @@ sendBtn.onclick = () => {
 function displayMessage(msg) {
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('message');
-  msgDiv.textContent = (msg.sender === 'mod' ? 'Mod: ' : 'You: ') + msg.text;
-  if (msg.sender === 'mod') msgDiv.classList.add('mod');
+  msgDiv.classList.add(msg.sender==='guest'?'guest-msg':'mod-msg');
+  msgDiv.textContent = msg.text;
   messagesDiv.appendChild(msgDiv);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
