@@ -15,24 +15,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Guest creates request
 function createGuestRequest(guestId) {
   set(ref(db, 'requests/' + guestId), { guestId, active:true });
 }
 
-// Send message
 function sendMessage(chatId, sender, text) {
-  push(ref(db, 'chats/' + chatId), { sender, text, time: Date.now() });
+  push(ref(db, 'chats/' + chatId), { sender, text, time:Date.now() });
 }
 
-// Listen messages
 function listenMessages(chatId, callback) {
-  onChildAdded(ref(db, 'chats/' + chatId), snapshot => {
-    callback(snapshot.val());
-  });
+  onChildAdded(ref(db, 'chats/' + chatId), snapshot => callback(snapshot.val()));
 }
 
-// Mod marks guest active
 function markGuestActive(guestId) {
   update(ref(db, 'requests/' + guestId), { active:true });
 }
