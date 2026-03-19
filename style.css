@@ -1,43 +1,43 @@
-/* === Reset & body === */
+/* Reset */
 * { box-sizing: border-box; margin:0; padding:0; }
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(120deg,#f0f2f5,#d9e2ef);
+  background: linear-gradient(120deg,#74ebd5,#ACB6E5);
   display:flex;
   justify-content:center;
-  align-items:flex-start;
-  height:100vh;
   padding-top:30px;
+  min-height:100vh;
 }
 
-/* === Container === */
+/* Container Card */
 .container {
   width:100%;
-  max-width:400px;
-  background:#fff;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+  max-width:420px;
+  background:white;
+  border-radius:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
   display:flex;
   flex-direction:column;
   overflow:hidden;
 }
 
-/* === Header === */
-h1 {
-  text-align:center;
+/* Header */
+.header {
   background:#007bff;
   color:white;
-  padding:15px 0;
+  padding:15px;
   font-size:1.3em;
+  text-align:center;
+  font-weight:bold;
 }
 
-/* === Start Button === */
+/* Start Button */
 #startChat {
   background:#28a745;
   color:white;
   border:none;
-  padding:12px 20px;
-  border-radius:25px;
+  padding:15px 25px;
+  border-radius:30px;
   cursor:pointer;
   margin:20px auto;
   font-weight:bold;
@@ -46,73 +46,111 @@ h1 {
 }
 #startChat:hover { background:#218838; }
 
-/* === Chat Box === */
+/* Chat Box */
 .chat-box {
   display:none;
   flex-direction:column;
-  height:500px;
+  height:520px;
+  border-top:1px solid #ccc;
 }
 
+/* Messages Area */
 .messages {
   flex-grow:1;
   padding:10px;
+  overflow-y:auto;
   display:flex;
   flex-direction:column;
-  overflow-y:auto;
+  scroll-behavior:smooth;
   background:#f0f2f5;
 }
 
-/* === Messages === */
+/* Individual Messages */
 .message {
-  max-width:70%;
-  margin:5px 0;
+  max-width:75%;
   padding:10px 15px;
+  margin:6px 0;
   border-radius:20px;
-  word-wrap: break-word;
   font-size:0.95em;
+  position:relative;
+  word-wrap: break-word;
   box-shadow:0 1px 3px rgba(0,0,0,0.1);
 }
 
-.guest-msg { 
-  background:#e2e3e5;
-  align-self:flex-start;
+/* Bubble Tail */
+.message::after {
+  content:"";
+  position:absolute;
+  width:0;
+  height:0;
+  border-style:solid;
 }
 
-.mod-msg { 
+.guest-msg {
+  background:#e2e3e5;
+  align-self:flex-start;
+  border-bottom-left-radius:0;
+}
+.guest-msg::after {
+  border-width:10px 10px 0 0;
+  border-color:#e2e3e5 transparent transparent transparent;
+  left:-10px; bottom:0;
+}
+
+.mod-msg {
   background:#007bff;
   color:white;
   align-self:flex-end;
+  border-bottom-right-radius:0;
+}
+.mod-msg::after {
+  border-width:10px 0 0 10px;
+  border-color:transparent transparent transparent #007bff;
+  right:-10px; bottom:0;
 }
 
-/* === Input Area === */
+/* Timestamp */
+.message small {
+  display:block;
+  font-size:0.7em;
+  margin-top:3px;
+  color:#555;
+  opacity:0.7;
+}
+
+/* Input Area */
 .input-area {
   display:flex;
   padding:10px;
   border-top:1px solid #ccc;
   background:white;
 }
-
 .input-area input {
   flex-grow:1;
-  padding:10px 15px;
+  padding:12px 20px;
   border-radius:25px;
   border:1px solid #ccc;
   outline:none;
+  font-size:1em;
 }
-
 .input-area button {
-  margin-left:10px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
   border:none;
+  margin-left:10px;
   background:#007bff;
   color:white;
-  padding:10px 18px;
-  border-radius:25px;
+  font-size:1.3em;
   cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   transition:0.2s;
 }
 .input-area button:hover { background:#0056b3; }
 
-/* === Moderator Guest List === */
+/* Moderator Guest List */
 .guest-list {
   display:flex;
   flex-direction:column;
@@ -121,7 +159,6 @@ h1 {
   padding:10px;
   background:#f8f9fa;
 }
-
 .guest-item {
   padding:12px 15px;
   margin:5px 0;
